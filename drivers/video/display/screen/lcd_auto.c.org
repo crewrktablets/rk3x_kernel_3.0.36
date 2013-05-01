@@ -35,23 +35,23 @@ extern struct rk29_bl_info rk29_bl_info;
 /* Base */
 #define OUT_TYPE_ID0			SCREEN_RGB
 
-#define OUT_FACE_ID0			OUT_D888_P666
-#define OUT_CLK_ID0			100000000
+#define OUT_FACE_ID0			OUT_P888
+#define OUT_CLK_ID0			71000000
 #define LCDC_ACLK_ID0       		500000000//312000000           //29 lcdc axi DMA ÆµÂÊ
 
 /* Timing */
-#define H_PW_ID0			320
-#define H_BP_ID0			480
+#define H_PW_ID0			100
+#define H_BP_ID0			100
 #define H_VD_ID0			1024
-#define H_FP_ID0			260
+#define H_FP_ID0			120
 
 #define V_PW_ID0			10
-#define V_BP_ID0			6
+#define V_BP_ID0			10
 #define V_VD_ID0			600
-#define V_FP_ID0			16
+#define V_FP_ID0			15
 
-#define LCD_WIDTH_ID0       		142
-#define LCD_HEIGHT_ID0      		106
+#define LCD_WIDTH_ID0       		202
+#define LCD_HEIGHT_ID0      		152
 /* Other */
 #define DCLK_POL_ID0			0
 #define SWAP_RB_ID0			0   

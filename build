@@ -1,0 +1,93 @@
+#!/bin/bash
+# build kernel for all devices
+# syntax: build <How much cpu threads> <ReleaseTag> [[<device>] [device]...]
+# * if no device(s) is/are specified, ALL known devices are built
+
+# kown devices to be built
+KNOWNDEVICES="odys_genio2 bqCurie"
+# additional options for make
+# path to kernel archive
+KERNEL_PATH="../kernels"
+# current timestamp
+TIMESTAMP=$(date "+%Y%m%d%H%M")
+# current git branch
+CURRBRANCH=$(git branch | grep '*' | sed 's/*//;s/\s//g')
+
+# parameter $1 is used for -j flag
+if [ "" == "$1" ]; then
+  MAKE_OPTIONS="-j4"
+else
+  MAKE_OPTIONS="$1"
+fi
+
+
+
+# parameter $2 is treated as release tag name
+if [ "" == "$2" ]; then
+  echo "assuming release tag: TEST"
+  RELEASETAG=TEST
+else
+  # replace tag spaces in tag with underscores
+  RELEASETAG=$(echo "$2" | sed 's/\s/_/g')
+  shift 1
+fi
+
+# device list to be built
+if [ "" == "$3" ]; then
+  echo -e "assuming devices: ${KNOWNDEVICES}"
+  DEVICES=${KNOWNDEVICES}
+else
+  DEVICES="$3"
+fi
+
+# create revision tag
+rev="${TIMESTAMP}_${RELEASETAG}"
+
+# check for local git changes
+LOCALCHANGES=$(git status -s)
+if [ "$LOCALCHANGES" != "" ]; then
+  echo "Local changes present"
+  echo "Please commit changes before building a release..."
+#  exit -1
+fi
+
+echo -e "\nPerforming Build with following parameters:"
+echo -e "Devices:\t$DEVICES"
+echo -e "ReleaseTag:\t$RELEASETAG"
+echo -e "Revision:\t$rev"
+echo -e "MAKE_OPTIONS:\t$MAKE_OPTIONS"
+echo
+read -p "Press any key to continue, CTRL-C to abort ..."
+
+# perform complete cleanup 
+echo "Cleaning up ..."
+make distclean
+
+# loop through each device
+for device in ${DEVICES} ; do
+  echo -e "***\n*** Building kernel for device: ${device} ***\n***"
+  make clean
+  rm kernel.img
+  make ${device}_defconfig
+  make ${MAKE_OPTIONS} kernel.img modules 2>&1 | tee build_${device}_${rev}.log
+  
+  # abort on missing make result
+  if [ ! -f kernel.img ]; then echo "ABORTED WITH ERROR"; exit; fi
+  
+  # archive kernel.img
+  mkdir -p ${KERNEL_PATH}/${device}/${rev}
+  cp kernel.img ${KERNEL_PATH}/${device}/${rev}
+  7z a ${KERNEL_PATH}/crewrktablets_kernel_3036_${device}_${rev}.7z kernel.img
+
+  # tag current git state with delivery tag
+  # git tag ${device}.${RELEASETAG}
+  # create package of all available modules
+  MODULES=`find . -name '*.ko'`
+  7z a ${KERNEL_PATH}/modules_3036_${rev}.7z ${MODULES}
+done
+make clean
+
+echo "Done"
+
+exit 0
+

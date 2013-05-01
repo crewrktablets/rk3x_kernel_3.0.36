@@ -34,6 +34,9 @@ obj-$(CONFIG_MACH_RK30_PHONE_PAD) += board-rk30-phonepad.o board-rk30-phonepad-k
 obj-$(CONFIG_MACH_RK30_PHONE_LOQUAT) += board-rk30-phone-loquat.o board-rk30-phone-loquat-key.o
 obj-$(CONFIG_MACH_RK30_DS1001B) += board-rk30-ds1001b.o board-rk30-ds1001b-key.o board-rk30-ds1001b-rfkill.o
 obj-$(CONFIG_MACH_RK30_PHONE_A22) += board-rk30-phone-a22.o board-rk30-phone-a22-key.o 
+obj-$(CONFIG_MACH_PIPO_M3) += board-pipo-m3.o board-rk30-sdk-key.o
+obj-$(CONFIG_MACH_RK30_CUBE_U30GT) += board-cube-u30gt.o board-rk30-sdk-key.o
+obj-$(CONFIG_MACH_ODYS_GENIO) += board-rk30-genio.o board-rk30-phonepad-key.o
 
 obj-$(CONFIG_MACH_RK3066B_FPGA) += board-rk3066b-fpga.o
 obj-$(CONFIG_MACH_RK3066B_SDK) += board-rk3066b-sdk.o
