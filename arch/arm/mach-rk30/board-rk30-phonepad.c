@@ -1176,6 +1176,7 @@ static struct spi_board_info board_spi_devices[] = {
 /***********************************************************
 *	rk30  backlight
 ************************************************************/
+//Changes for Odys Genio
 #ifdef CONFIG_BACKLIGHT_RK29_BL
 #define PWM_ID            2
 #define PWM_MUX_NAME      GPIO0D6_PWM2_NAME
