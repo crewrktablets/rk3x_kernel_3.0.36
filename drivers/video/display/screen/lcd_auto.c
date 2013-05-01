@@ -31,7 +31,7 @@
 extern struct rk29_bl_info rk29_bl_info;
 
 
-//FOR ID0
+//FOR ID0 changed timing for Odys Genio
 /* Base */
 #define OUT_TYPE_ID0			SCREEN_RGB
 

@@ -1,3 +1,4 @@
+/* Now 1024x600*/
 #include <linux/fb.h>
 #include <linux/delay.h>
 #include "../../rk29_fb.h"
