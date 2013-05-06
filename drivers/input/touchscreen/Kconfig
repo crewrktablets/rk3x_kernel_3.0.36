@@ -115,6 +115,10 @@ config TOUCHSCREEN_ILI2102_IIC
 	  code includes that in its table of IIC devices.
 
 	  If unsure, say N (but it's safe to say "Y").
+
+config TOUCHSCREEN_CT36X
+	tristate "CT36X based touchscreens"
+
 config TOUCHSCREEN_GT8XX
         tristate "Goodix touch screen gt801X2 support for rockchip based platform"
         help
