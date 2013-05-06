@@ -1181,9 +1181,9 @@ static struct spi_board_info board_spi_devices[] = {
 #define PWM_ID            2
 #define PWM_MUX_NAME      GPIO0D6_PWM2_NAME
 #define PWM_MUX_MODE      GPIO0D_PWM2
-#define PWM_MUX_MODE_GPIO GPIO0D_GPIO0D6
+#define PWM_MUX_MODE_GPIO GPIO0A_GPIO0A3
 #define PWM_GPIO 	  RK30_PIN0_PD6
-#define PWM_EFFECT_VALUE  1
+#define PWM_EFFECT_VALUE  0
 
 #define LCD_DISP_ON_PIN
 
@@ -1197,6 +1197,7 @@ static struct spi_board_info board_spi_devices[] = {
 static int rk29_backlight_io_init(void)
 {
 	int ret = 0;
+	rk30_mux_api_set(GPIO0D6_PWM2_NAME, GPIO0D_PWM2);
 	rk30_mux_api_set(PWM_MUX_NAME, PWM_MUX_MODE);
 #ifdef  LCD_DISP_ON_PIN
 	// rk30_mux_api_set(BL_EN_MUX_NAME, BL_EN_MUX_MODE);
@@ -1206,8 +1207,8 @@ static int rk29_backlight_io_init(void)
 		gpio_free(BL_EN_PIN);
 	}
 
-	gpio_direction_output(BL_EN_PIN, 0);
-	gpio_set_value(BL_EN_PIN, !BL_EN_VALUE);
+	gpio_direction_output(BL_EN_PIN, BL_EN_VALUE);
+	gpio_set_value(BL_EN_PIN, BL_EN_VALUE);
 #endif
 	return ret;
 }
@@ -1225,16 +1226,25 @@ static int rk29_backlight_io_deinit(void)
 static int rk29_backlight_pwm_suspend(void)
 {
 	int ret = 0;
+	#ifdef  LCD_DISP_ON_PIN
+
+	gpio_direction_output(BL_EN_PIN, 0);
+	gpio_set_value(BL_EN_PIN, !BL_EN_VALUE);
+	msleep(15);
+	#endif
+
 	rk30_mux_api_set(PWM_MUX_NAME, PWM_MUX_MODE_GPIO);
 	if (gpio_request(PWM_GPIO, NULL)) {
 		printk("func %s, line %d: request gpio fail\n", __FUNCTION__, __LINE__);
 		return -1;
 	}
-	gpio_direction_output(PWM_GPIO, GPIO_LOW);
+	gpio_direction_output(PWM_GPIO, !PWM_EFFECT_VALUE);
+/*
 #ifdef  LCD_DISP_ON_PIN
 	gpio_direction_output(BL_EN_PIN, 0);
 	gpio_set_value(BL_EN_PIN, !BL_EN_VALUE);
 #endif
+*/
 	return ret;
 }
 

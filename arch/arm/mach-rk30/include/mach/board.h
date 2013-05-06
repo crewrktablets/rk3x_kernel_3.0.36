@@ -22,7 +22,7 @@ struct wifi_platform_data {
 };
 #endif
 
-#if defined (CONFIG_TOUCHSCREEN_FT5306)
+#if defined (CONFIG_TOUCHSCREEN_FT5306) || defined (CONFIG_TOUCHSCREEN_FT5406)
 struct ft5x0x_platform_data{
 	u16     model;
 	int	max_x;

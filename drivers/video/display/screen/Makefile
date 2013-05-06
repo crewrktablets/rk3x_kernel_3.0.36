@@ -48,3 +48,4 @@ obj-$(CONFIG_LCD_HJ080NA)    += lcd_hj080na.o
 obj-$(CONFIG_LCD_HJ101NA)   += lcd_hj101na.o
 obj-$(CONFIG_LCD_AUTO)   += lcd_auto.o
 obj-$(CONFIG_LCD_I30_800X480)   += lcd_I30_800x480.o
+obj-$(CONFIG_LCD_HSD1280X800) += lcd_hsd1280x800.o
