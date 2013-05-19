@@ -197,6 +197,9 @@ ARCH		?= arm
 ifneq ($(wildcard ../toolchain/arm-eabi-4.4.0),)
 CROSS_COMPILE	?= ../toolchain/arm-eabi-4.4.0/bin/arm-eabi-
 endif
+ifneq ($(wildcard ../toolchain/arm-eabi-4.4.3),)
+CROSS_COMPILE	?= ../toolchain/arm-eabi-4.4.3/bin/arm-eabi-
+endif
 ifneq ($(wildcard ../prebuilt/linux-x86/toolchain/arm-eabi-4.4.0),)
 CROSS_COMPILE	?= ../prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin/arm-eabi-
 endif

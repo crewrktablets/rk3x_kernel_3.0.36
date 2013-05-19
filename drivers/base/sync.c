@@ -64,6 +64,7 @@ struct sync_timeline *sync_timeline_create(const struct sync_timeline_ops *ops,
 
 	return obj;
 }
+EXPORT_SYMBOL(sync_timeline_create);
 
 static void sync_timeline_free(struct sync_timeline *obj)
 {

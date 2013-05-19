@@ -79,6 +79,7 @@ static struct rk29_keys_button key_button[] = {
 	},
 	#endif
 #ifndef RK3000_SDK
+    #if 0
 	{
 		.desc	= "menu",
 		.code	= EV_MENU,
@@ -93,6 +94,7 @@ static struct rk29_keys_button key_button[] = {
 		.gpio = INVALID_GPIO,
 		.active_low = PRESS_LEV_LOW,
 	},
+    #endif
 	{
 		.desc	= "esc",
 		.code	= KEY_BACK,
@@ -100,6 +102,7 @@ static struct rk29_keys_button key_button[] = {
 		.gpio = INVALID_GPIO,
 		.active_low = PRESS_LEV_LOW,
 	},
+    #if 0
 	{
 		.desc	= "camera",
 		.code	= KEY_CAMERA,
@@ -107,6 +110,7 @@ static struct rk29_keys_button key_button[] = {
 		.gpio = INVALID_GPIO,
 		.active_low = PRESS_LEV_LOW,
 	},
+    #endif
 #else
 	{
 		.desc	= "menu",
