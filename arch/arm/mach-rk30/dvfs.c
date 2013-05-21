@@ -284,6 +284,7 @@ struct cpufreq_frequency_table *dvfs_get_freq_volt_table(struct clk *clk)
 	mutex_unlock(&mutex);
 	return table;
 }
+EXPORT_SYMBOL(dvfs_get_freq_volt_table);
 
 int dvfs_set_freq_volt_table(struct clk *clk, struct cpufreq_frequency_table *table)
 {
