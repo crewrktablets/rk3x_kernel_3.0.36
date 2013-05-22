@@ -1,0 +1,25 @@
+choice
+    depends on TOUCHSCREEN_CT360_IIC
+	prompt  "Touchscreen Chip Selection"
+config CT360_CHIP_VER
+	bool "CT360"
+config CT363_CHIP_VER
+	bool "CT363/CT365"
+endchoice
+
+config CT360_CHIP_UPDATE_SUPPORT
+	bool "Enable"
+	prompt "Enable firmware update of CT36X"
+	depends on TOUCHSCREEN_CT360_IIC
+	default n
+	help
+	  Enable Support of flashing new firmware to selected VTL chip.
+	  A valid imag must be provided.
+	
+config CHIP_DRIVER_FILE
+	string "Firmware Image Blob Name"
+	depends on TOUCHSCREEN_CT360_IIC && CT360_CHIP_UPDATE_SUPPORT
+	default "CT360_ODYS_GENIO.DAT"
+	help
+	  Filename of the firmware image of the chip.
+	

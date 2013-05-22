@@ -116,8 +116,8 @@ config TOUCHSCREEN_ILI2102_IIC
 
 	  If unsure, say N (but it's safe to say "Y").
 
-config TOUCHSCREEN_CT36X
-	tristate "CT36X based touchscreens"
+#config TOUCHSCREEN_CT36X
+#	tristate "CT36X based touchscreens"
 
 config TOUCHSCREEN_GT8XX
         tristate "Goodix touch screen gt801X2 support for rockchip based platform"
@@ -1009,8 +1009,9 @@ config TOUCHSCREEN_GT8110
         depends on I2C2_RK29 || I2C_RK30
 
 config TOUCHSCREEN_CT360_IIC
-	tristate "CT360 based touchscreens"
+	tristate "CT360/CT363/CT365 based touchscreens"
 	depends on I2C_RK29 || I2C_RK30
+	source "drivers/input/touchscreen/vtl/Kconfig"
 
 config TOUCHSCREEN_FT5306
 	tristate "FT5306 based touchscreens: FT5306 Interface"

@@ -833,6 +833,8 @@ struct ft5x0x_platform_data ft5306_info = {
 
 static void ct360_hw_init(void)
 {
+	/* Astralix: Disabled as driver does it by itself... */
+#if 0
 	int ret;
 
 	printk("%s\n", __FUNCTION__);
@@ -856,10 +858,12 @@ static void ct360_hw_init(void)
 			gpio_pull_updown(TOUCH_INT_PIN, PullEnable);
 		}
 	}
+#endif
 }
 
 static void ct360_hw_shutdown(int reset)
 {
+#if 0
 	if(TOUCH_RESET_PIN != INVALID_GPIO){
 		if(reset){
 			gpio_set_value(TOUCH_RESET_PIN, GPIO_HIGH);
@@ -868,6 +872,7 @@ static void ct360_hw_shutdown(int reset)
 			gpio_set_value(TOUCH_RESET_PIN, GPIO_LOW);
 		}
 	}
+#endif
 }
 
 
