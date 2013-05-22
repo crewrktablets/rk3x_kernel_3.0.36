@@ -971,7 +971,7 @@ static int ct36x_ts_probe(struct i2c_client *client, const struct i2c_device_id 
 	ts->ready = 1;	// Device is ready
 
 	// HW Reset
-	ct36x_ts_hw_reset(ts);
+	// ct36x_ts_hw_reset(ts);
 
 	return 0;
 
