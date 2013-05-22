@@ -43,8 +43,10 @@
     #define  boot_printk(msg...)
 #endif
 
+#define ENABLE_BOOTLOADER 0
+
 #define IOMUX_NAME_SIZE 48
-#define GPIO_TS_RESET     RK30_PIN4_PD0
+// #define GPIO_TS_RESET     RK30_PIN4_PD0
 /*RK30_PIN4_PC2*/
 
 enum regadd {
@@ -67,7 +69,7 @@ struct ct360_ts_data {
     int     irq;
     struct  i2c_client *client;
     struct  input_dev *input_dev;
-    struct workqueue_struct *ct360_wq;
+    struct	workqueue_struct *ct360_wq;
     struct  work_struct  work;
     struct  early_suspend early_suspend;
 };
@@ -99,6 +101,12 @@ static int ct360_write_regs(struct i2c_client *client, u8 reg, u8 const buf[], u
     return ret;
 }
 
+/******************************************
+ *
+ * ct36x BOOTLOADER
+ *
+ */
+#if (ENABLE_BOOTLOADER==1)
 char const  Binary_Data[32768]=
 {
 //#include "CT365RC972030D_V39120329A_waterproof.dat"
@@ -311,6 +319,7 @@ char CTP_BootLoader(struct ct360_ts_data *ts)
     return  1 ;
 
 }
+#endif
 
 static void ct360_ts_work_func(struct work_struct *work)
 {
@@ -419,17 +428,40 @@ static int ct360_ts_probe(struct i2c_client *client, const struct i2c_device_id 
 
     if(pdata->hw_init)
         pdata->hw_init();
-/*
-    if(pdata->shutdown){
-        pdata->shutdown(1);
-        mdelay(200);
-        pdata->shutdown(0);
-        mdelay(50);
-        pdata->shutdown(1);
-        mdelay(50);
-    }
-*/
 
+#if (ENABLE_BOOTLOADER==0)
+
+    {
+    	/* Astralix:
+    	 * All the GPIO is handled in board init. Board init must
+    	 * provide a shutdown function that properly handles physical
+    	 * reset line.
+    	 */
+        if(pdata->shutdown){
+            pdata->shutdown(1);
+            mdelay(80);
+            pdata->shutdown(0);
+            mdelay(10);
+        }
+
+		/* Wait 40ms to let ct36x startup again */
+		mdelay(40);
+
+		ret=ct360_write_regs( client, 0xfF, loader_buf, 2);
+		if(ret < 0) {
+			printk("\n--%s--Set Register values error !!!\n",__FUNCTION__);
+		}
+
+		mdelay(1);
+
+		ret = i2c_master_normal_send(client,boot_loader,1,100*1000);
+	    if(ret < 0)
+	        printk("ct360_ts_probe:sdf  i2c_transfer fail =%d\n",ret);
+		printk("Astralix: Skipped that shit %d\n", ret);
+
+    }
+
+#else
     gpio_request(GPIO_TS_RESET, "ct360_init_gpio");
     gpio_direction_output(GPIO_TS_RESET, GPIO_LOW);
     gpio_set_value(GPIO_TS_RESET, GPIO_LOW);
@@ -439,7 +471,7 @@ static int ct360_ts_probe(struct i2c_client *client, const struct i2c_device_id 
     gpio_direction_input(GPIO_TS_RESET);
     //��40ms��ʱ�������ȡ���?��
     mdelay(40);
-    ret=ct360_write_regs(client,0xfF, loader_buf, 2);
+    ret=ct360_write_regs( client, 0xfF, loader_buf, 2);
     if(ret<0){
         printk("\n--%s--Set Register values error !!!\n",__FUNCTION__);
     }
@@ -476,6 +508,7 @@ static int ct360_ts_probe(struct i2c_client *client, const struct i2c_device_id 
     {
         printk("Don't need bootloader.skip it %x \n",Binary_Data[16372]);
     }
+#endif
 
     if(pdata->shutdown){
         pdata->shutdown(1);

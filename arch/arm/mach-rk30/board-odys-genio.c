@@ -834,7 +834,6 @@ struct ft5x0x_platform_data ft5306_info = {
 static void ct360_hw_init(void)
 {
 	/* Astralix: Disabled as driver does it by itself... */
-#if 0
 	int ret;
 
 	printk("%s\n", __FUNCTION__);
@@ -842,6 +841,7 @@ static void ct360_hw_init(void)
 	rk30_mux_api_set(GPIO4C2_SMCDATA2_TRACEDATA2_NAME, 0);
 	rk30_mux_api_set(GPIO4D0_SMCDATA8_TRACEDATA8_NAME, 0);
 	
+#if 0
 	if(TOUCH_RESET_PIN != INVALID_GPIO){
 		gpio_request(TOUCH_RESET_PIN, "ct360_reset");
 		gpio_direction_output(TOUCH_RESET_PIN, GPIO_HIGH);
@@ -3066,9 +3066,9 @@ static struct i2c_board_info __initdata i2c2_info[] = {
 
 #if defined (CONFIG_TOUCHSCREEN_CT360_IIC)
 	{
-	.type		="ct360_ts",
-	.addr		=0x01,
-	.flags		=0,
+	.type		= "ct360_i2c_ts",
+	.addr		= 0x01,
+	.flags		= 0,
 	.irq		= RK30_PIN4_PC2,
 	.platform_data = &ct360_info,
 	},

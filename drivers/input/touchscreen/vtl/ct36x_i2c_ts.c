@@ -38,7 +38,6 @@
 
 #include "ct36x_i2c_ts.h"
 
-
 /* ==================  ct36x_zx 2012.09.13  ==================*/
 #if 0	/* ct36x_zx */
 #define ct36x_debug(...) \
@@ -197,7 +196,7 @@ static int ct36x_ts_hw_init(struct ct36x_ts_info *ct36x_ts)
 
 static void ct36x_ts_hw_reset(struct ct36x_ts_info *ct36x_ts)
 {
-	printk("\nct36x_ts_hw_reset test !!!!!!!!!!!!!!!!!!!!!!!\n");
+	printk("%s()\n", __func__);
 	mdelay(100);
 	gpio_set_value(ct36x_ts->rst, GPIO_LOW);
 	mdelay(10);
@@ -207,11 +206,13 @@ static void ct36x_ts_hw_reset(struct ct36x_ts_info *ct36x_ts)
 
 static void ct36x_ts_hw_exit(struct ct36x_ts_info *ct36x_ts)
 {
+	printk("%s()\n", __func__);
 	gpio_free(ct36x_ts->rst);
 	gpio_free(ct36x_ts->ss);
 }
 
 #if defined(CONFIG_CT360_CHIP_UPDATE_SUPPORT)
+
 #if (CT36X_TS_CHIP_SEL == CT360_CHIP_VER)
 int ct36x_ts_bootloader(struct i2c_client *client)
 {
@@ -648,6 +649,7 @@ static irqreturn_t ct36x_ts_irq(int irq, void *dev)
 
 	ts = (struct ct36x_ts_info *)dev;
 
+#if 0
 	if ( /* CT36X_TS_DEBUG */ 0)
 		ct36x_debug(">>>>> %s() called <<<<< \n", __FUNCTION__);
 
@@ -664,12 +666,16 @@ static irqreturn_t ct36x_ts_irq(int irq, void *dev)
 		}
 	#endif
 
-		//schedule_work(&ts->event_work);
-		queue_work(ts->ts_workqueue, &ts->event_work);	/* ct36x_zx */
+		schedule_work(&ts->event_work);
+		// queue_work(ts->ts_workqueue, &ts->event_work);	/* ct36x_zx */
 	} else {
 		printk("---> %s: didn't already!!!!!!\n", __FUNCTION__);
 	}
-
+#else
+	disable_irq_nosync(ts->irq);
+	if (!work_pending(&ts->event_work))
+		queue_work(ts->ts_workqueue, &ts->event_work);
+#endif
 	return IRQ_HANDLED;
 }
 
@@ -677,8 +683,7 @@ static void ct36x_ts_timer(unsigned long data)
 {
 	struct ct36x_ts_info *ts = (struct ct36x_ts_info *) data;
 
-	if ( /*CT36X_TS_DEBUG*/ 0 )
-		ct36x_debug(">>>>> %s() called <<<<< \n", __FUNCTION__);
+	ct36x_debug(">>>>> %s() called <<<<< \n", __FUNCTION__);
 
 	schedule_work(&ts->event_work);
 }
@@ -828,27 +833,38 @@ static void ct36x_ts_workfunc(struct work_struct *work)
 
 static int ct36x_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
-	struct ct36x_ts_info *ts;
-	struct device *dev;
+	struct ct36x_ts_info *ts = NULL;
+	struct device *dev = &client->dev;
 	int err = -1;
 
-	if ( CT36X_TS_DEBUG )
-		ct36x_debug(">>>>> %s() called <<<<< \n", __FUNCTION__);
+	if (dev == NULL) {
+		printk(KERN_ERR  "%s(): dev not registered!\n", __func__);
+		goto ERR_HW_INIT;
+	}
 
-	dev = &client->dev;
+	/* Check I2C Functionality */
+	err = i2c_check_functionality(client->adapter, I2C_FUNC_I2C);
+	if ( !err ) {
+		dev_err(dev, "Check I2C Functionality Failed.\n");
+		goto ERR_I2C_CHK;
+	}
+
 	ts = (struct ct36x_ts_info *)i2c_get_clientdata(client);
+	if (ts == NULL) {
+		printk(KERN_ERR  "%s(): Not registered at I2C!\n", __func__);
+		goto ERR_HW_INIT;
+	}
 
 	ts->ready = 0;	// Device is not ready
 
-	// HW Init
+	/* Init Hardware */
 	err = ct36x_ts_hw_init(ts);
 	if ( err ) {
 		dev_err(dev, "Platform HW Init Failed.\n");
 		goto ERR_HW_INIT;
 	}
 
-
-	// HW Reset when Firmware update.
+	/* HW Reset when Firmware request and update. */
 	ct36x_ts_hw_reset(ts);
 
 #if (CT36X_TS_CHIP_SEL == CT360_CHIP_VER)
@@ -901,13 +917,6 @@ static int ct36x_ts_probe(struct i2c_client *client, const struct i2c_device_id 
 	register_early_suspend(&ts->early_suspend);
 #endif
 #endif
-
-	// Check I2C Functionality
-	err = i2c_check_functionality(client->adapter, I2C_FUNC_I2C);
-	if ( !err ) {
-		dev_err(dev, "Check I2C Functionality Failed.\n");
-		goto ERR_I2C_CHK;
-	}
 
 	// allocate input device
 	ts->input = input_allocate_device();
@@ -968,10 +977,10 @@ static int ct36x_ts_probe(struct i2c_client *client, const struct i2c_device_id 
 	dev_info(dev, "ESD timer, %s \n", ts->timer_on ? "On" : "Off");
 #endif
 
-	ts->ready = 1;	// Device is ready
+	/* Add another reset and then state we are ready */
+	ct36x_ts_hw_reset(ts);
 
-	// HW Reset
-	// ct36x_ts_hw_reset(ts);
+	ts->ready = 1;	// Device is ready
 
 	return 0;
 
@@ -1000,8 +1009,10 @@ static int ct36x_ts_suspend(struct i2c_client *client, pm_message_t mesg)
 
 	if (CT36X_TS_DEBUG)
 		ct36x_debug("ct36x_ts_suspend\n");
+
 	ts = (struct ct36x_ts_info *)i2c_get_clientdata(client);
 	disable_irq_nosync(ts->irq);
+
 #if (CT36X_TS_ESD_TIMER_INTERVAL)
 	if ( ts->timer_on ) {
 		// Disable ESD timer
@@ -1009,7 +1020,7 @@ static int ct36x_ts_suspend(struct i2c_client *client, pm_message_t mesg)
 		ts->timer_on = 0;
 	}
 #endif
-	//cancel_work_sync(&ts->event_work);		/* ct36x_zx */
+	cancel_work_sync(&ts->event_work);		/* ct36x_zx */
 
 #if (CT36X_TS_CHIP_SEL == CT360_CHIP_VER)
 	// step 01 W FF 0F 2B
@@ -1131,9 +1142,10 @@ static int __init ct36x_ts_init(void)
 	struct i2c_client *client;
 
 	printk("VTL ct36x TouchScreen driver, <george.chen@vtl.com>.\n");
+	printk("Patched by Astralix of crewrktablets.arctablets.com.\n");
 
 	// Init Platform data
-	ct36x_ts.i2c_bus =		CT36X_TS_I2C_BUS;
+	ct36x_ts.i2c_still und starrt ruht der seew
 	ct36x_ts.i2c_address =	CT36X_TS_I2C_ADDRESS;
 
 	adapter = i2c_get_adapter(ct36x_ts.i2c_bus);

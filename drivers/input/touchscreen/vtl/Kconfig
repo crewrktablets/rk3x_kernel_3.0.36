@@ -20,9 +20,23 @@ choice
 
 endchoice
 
+	config TOUCH_MAX_X
+                int "touch max x resolution"
+                depends on TOUCHSCREEN_CT360_IIC
+                default 1024
+                help
+                  CT36x touch max X resolution
+
+    config TOUCH_MAX_Y
+                int "touch max y resolution"
+                depends on TOUCHSCREEN_CT360_IIC
+                default 600
+                help
+                  CT36x touch max X resolution
+
+
 config CT360_CHIP_UPDATE_SUPPORT
-	bool "Enable"
-	prompt "Enable firmware update of CT36X"
+	bool "Enable firmware update of CT36X"
 	depends on TOUCHSCREEN_CT360_IIC
 	default n
 	help
