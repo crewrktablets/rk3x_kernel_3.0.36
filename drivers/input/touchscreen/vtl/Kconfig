@@ -1,10 +1,23 @@
+#
+# modular VTL Tech CT36X Driver
+#
+
+menuconfig TOUCHSCREEN_CT360_IIC
+	tristate "Modular VTL Tech CT36x Driver"
+	help
+	  Enable support for the modular ISDN driver.
+
 choice
+
     depends on TOUCHSCREEN_CT360_IIC
 	prompt  "Touchscreen Chip Selection"
-config CT360_CHIP_VER
-	bool "CT360"
-config CT363_CHIP_VER
-	bool "CT363/CT365"
+
+	config CT360_CHIP_VER
+		bool "CT360"
+
+	config CT363_CHIP_VER
+		bool "CT363/CT365"
+
 endchoice
 
 config CT360_CHIP_UPDATE_SUPPORT
@@ -14,7 +27,7 @@ config CT360_CHIP_UPDATE_SUPPORT
 	default n
 	help
 	  Enable Support of flashing new firmware to selected VTL chip.
-	  A valid imag must be provided.
+	  A valid image must be provided.
 	
 config CHIP_DRIVER_FILE
 	string "Firmware Image Blob Name"
