@@ -1667,6 +1667,15 @@ static struct sensor_platform_data light_isl29023_info = {
 #define LCD_CS_PIN         RK30_PIN4_PC7
 #define LCD_CS_VALUE       GPIO_HIGH
 
+#define LCD_EN_MUX_NAME    GPIO4C7_SMCDATA7_TRACEDATA7_NAME
+#define LCD_EN_PIN         RK30_PIN6_PB4
+#define LCD_EN_VALUE       GPIO_LOW
+
+#define HDMI11_MUX_NAME                GPIO3A6_SDMMC0RSTNOUT_NAME
+#define HDMI11_EN_PIN          RK30_PIN3_PA6
+#define HDMI11_EN_VALUE        GPIO_HIGH
+
+// *JK* not needed for Odys Genio
 #define LCD_STANDBY_MUX_NAME    GPIO4D2_SMCDATA10_TRACEDATA10_NAME
 #define LCD_STANDBY_PIN         RK30_PIN4_PD2
 #define LCD_STANDBY_VALUE       GPIO_HIGH
@@ -1675,13 +1684,6 @@ static struct sensor_platform_data light_isl29023_info = {
 #define LCD_RST_PIN         RK30_PIN4_PD1
 #define LCD_RST_VALUE       GPIO_HIGH
 
-#define LCD_EN_MUX_NAME    GPIO4C7_SMCDATA7_TRACEDATA7_NAME
-#define LCD_EN_PIN         RK30_PIN6_PB4
-#define LCD_EN_VALUE       GPIO_LOW
-
-#define HDMI11_MUX_NAME                GPIO3A6_SDMMC0RSTNOUT_NAME
-#define HDMI11_EN_PIN          RK30_PIN3_PA6
-#define HDMI11_EN_VALUE        GPIO_HIGH
 
 
 static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
@@ -1725,7 +1727,7 @@ static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
 		gpio_direction_output(LCD_EN_PIN, LCD_EN_VALUE);
 	}
 
-// *jk* not needed for genio
+// *JK* not needed for Odys Genio
 /* 
 	rk30_mux_api_set(LCD_STANDBY_MUX_NAME, GPIO4D_GPIO4D2);
 	ret = gpio_request(LCD_STANDBY_PIN, NULL);
