@@ -1725,12 +1725,14 @@ static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
 		gpio_direction_output(LCD_EN_PIN, LCD_EN_VALUE);
 	}
 
+// *jk* not needed for genio
+/* 
 	rk30_mux_api_set(LCD_STANDBY_MUX_NAME, GPIO4D_GPIO4D2);
 	ret = gpio_request(LCD_STANDBY_PIN, NULL);
 	if (ret != 0)
 	{
 		gpio_free(LCD_STANDBY_PIN);
-		printk(KERN_ERR "request lcd cs pin fail!\n");
+		printk(KERN_ERR "request lcd standby pin fail!\n");
 		return -1;
 	}
 	else
@@ -1743,14 +1745,14 @@ static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
 	if (ret != 0)
 	{
 		gpio_free(LCD_RST_PIN);
-		printk(KERN_ERR "request lcd cs pin fail!\n");
+		printk(KERN_ERR "request lcd rst pin fail!\n");
 		return -1;
 	}
 	else
 	{
 		gpio_direction_output(LCD_RST_PIN, LCD_RST_VALUE);
 	}
-	
+*/	
 	return 0;
 }
 #ifdef CONFIG_HALL_KEY
