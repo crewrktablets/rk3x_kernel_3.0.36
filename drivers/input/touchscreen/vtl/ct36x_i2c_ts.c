@@ -1145,7 +1145,7 @@ static int __init ct36x_ts_init(void)
 	printk("Patched by Astralix of crewrktablets.arctablets.com.\n");
 
 	// Init Platform data
-	ct36x_ts.i2c_still und starrt ruht der seew
+	ct36x_ts.i2c_bus = CT36X_TS_I2C_BUS;
 	ct36x_ts.i2c_address =	CT36X_TS_I2C_ADDRESS;
 
 	adapter = i2c_get_adapter(ct36x_ts.i2c_bus);
