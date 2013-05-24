@@ -3,6 +3,10 @@ choice
 	prompt  "LCD Panel Select"
 config LCD_NULL
 	bool "NULL"
+config LCD_ODYS_GENIO
+	bool "RGB LCD for Odys Genio (1024x600)"
+config LCD_ARCHOS_GAMEPAD
+	bool "RGB LCD for Archos Gamepad (1024x600)"
 config LCD_LG_LP097X02
 	bool "RGB LCD_LG_LP097X02 1024X768"
 config LCD_TD043MGEA1
