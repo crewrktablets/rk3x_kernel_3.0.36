@@ -52,4 +52,4 @@ obj-$(CONFIG_LCD_AUTO)   += lcd_auto.o
 obj-$(CONFIG_LCD_I30_800X480)   += lcd_I30_800x480.o
 obj-$(CONFIG_LCD_HSD1280X800) += lcd_hsd1280x800.o
 
-obj-$(CONFIG_LCD_XELIO10PRO) += lcd_xelio10pro.c
+obj-$(CONFIG_LCD_XELIO10PRO) += lcd_xelio10pro.o
