@@ -45,10 +45,10 @@ config MACH_RK3066_SDK
 	bool "RK3066 SDK board"
 
 config MACH_RK30_DS1001B
-        bool "RK30 DS1001B board"
+    bool "RK30 DS1001B board"
 
 config MACH_RK30_PHONE_PAD
-        bool "RK30 smart phone pad board"
+    bool "RK30 smart phone pad board"
         
 config MACH_RK30_PHONE
 	bool "RK30 smart phone board"
@@ -57,16 +57,19 @@ config MACH_RK30_PHONE_LOQUAT
 	bool "RK30 smart phone loquat board"
 
 config MACH_RK30_PHONE_A22
-        bool "RK30 smart phone a22 board"
+    bool "RK30 smart phone a22 board"
 
 config MACH_PIPO_M3
 	bool "Pipo M3 MID device"
 	
 config MACH_RK30_CUBE_U30GT
-        bool "Cube U30GT MID"
+    bool "Cube U30GT MID"
 	
 config MACH_ODYS_GENIO
-        bool "Odys Genio MID device"
+    bool "Odys Genio MID device"
+
+config MACH_ODYS_XELIO10PRO
+    bool "Odys Xelio 10pro MID device"
 	
 endchoice
 
