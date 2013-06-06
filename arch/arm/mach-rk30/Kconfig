@@ -70,6 +70,9 @@ config MACH_ODYS_GENIO
 
 config MACH_ODYS_XELIO10PRO
     bool "Odys Xelio 10pro MID device"
+
+config MACH_ARCHOS_GAMEPAD
+    bool "Archos GamePad MID device"
 	
 endchoice
 

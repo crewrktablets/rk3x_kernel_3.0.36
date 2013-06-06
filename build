@@ -4,7 +4,7 @@
 # * if no device(s) is/are specified, ALL known devices are built
 
 # kown devices to be built
-KNOWNDEVICES="odys_genio2 bqCurie"
+KNOWNDEVICES="odys_genio"
 # additional options for make
 # path to kernel archive
 KERNEL_PATH="../kernels"

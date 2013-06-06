@@ -97,4 +97,5 @@ obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_RMI4_I2C_RK)      += rmi4/
 obj-$(CONFIG_TOUCHSCREEN_I30)	+= i30_ts.o
 obj-$(CONFIG_TOUCHSCREEN_GT9110_BQ)      += gt9xx.o  gt9xx_update.o  goodix9xx_tool.o
 obj-$(CONFIG_TOUCHSCREEN_BYD693X)	+= byd693x_ts.o
+obj-$(CONFIG_TOUCHSCREEN_TOUCHPLUS) += touchplus_ts.o
 

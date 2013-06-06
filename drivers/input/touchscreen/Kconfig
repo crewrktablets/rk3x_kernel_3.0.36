@@ -1043,6 +1043,25 @@ config TOUCHSCREEN_FT5406
 	  in its table of I2C devices.
 
 	  If unsure, say N(but it's safe to say "Y").
+	config TOUCHSCREEN_SIZE
+		bool "touchscreens size select"
+		depends on TOUCHSCREEN_FT5406
+
+		config TOUCHSCREEN_1024X768
+		bool "1024X768 resolution"
+		depends on TOUCHSCREEN_SIZE
+
+		config TOUCHSCREEN_1024X600
+		bool "1024X600 resolution"
+		depends on TOUCHSCREEN_SIZE
+	
+		config TOUCHSCREEN_800X600
+		bool "800X600 resolution"
+		depends on TOUCHSCREEN_SIZE
+
+		config TOUCHSCREEN_800X480
+		bool "800X480 resolution"
+		depends on TOUCHSCREEN_SIZE
 
 config TOUCHSCREEN_GT9110_BQ
 	tristate "GT9110 based touchscreens"
@@ -1081,4 +1100,35 @@ config ATMEL_MXT1386
                 default n
                 help
                   RK29 ATMEL_MXT1386 touch debug
+
+config TOUCHSCREEN_TOUCHPLUS
+	tristate "Touchplus serial touchscreen"
+	depends on I2C 
+	help
+	  Say Y here if you have a Touchplus serial touchscreen connected to
+	  your system.
+	  If unsure, say N.
+	  To compile this driver as a module, choose M here: the 
+	  module will be called touchplus.
+
+	config TOUCHSCREEN_SIZE
+		tristate "touchscreens size select"
+		depends on TOUCHSCREEN_TOUCHPLUS
+
+		config TOUCHSCREEN_1024X768
+		tristate "1024X768 resolution"
+		depends on TOUCHSCREEN_SIZE
+
+		config TOUCHSCREEN_1024X600
+		tristate "1024X600 resolution"
+		depends on TOUCHSCREEN_SIZE
+	
+		config TOUCHSCREEN_800X600
+		tristate "800X600 resolution"
+		depends on TOUCHSCREEN_SIZE
+
+		config TOUCHSCREEN_800X480
+		tristate "800X480 resolution"
+		depends on TOUCHSCREEN_SIZE
+
 endif

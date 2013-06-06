@@ -69,8 +69,24 @@ static struct early_suspend ft5406_power;
 #define FT5X0X_REG_PMODE          0xA5         /* Power Consume Mode 0 -- active, 1 -- monitor, 3 -- sleep */    
 #define FT5X0X_REG_FIRMID         0xA6         /* ***************firmware version **********************/
 #define FT5X0X_REG_NOISE_MODE     0xb2         /* to enable or disable power noise, 1 -- enable, 0 -- disable */
+
+#if defined (CONFIG_TOUCHSCREEN_1024X768)
+#define SCREEN_MAX_X 1024
+#define SCREEN_MAX_Y 768
+#elif defined (CONFIG_TOUCHSCREEN_1024X600)
+#define SCREEN_MAX_X 1024
+#define SCREEN_MAX_Y 600
+#elif defined (CONFIG_TOUCHSCREEN_800X600)
+#define SCREEN_MAX_X 800
+#define SCREEN_MAX_Y 600
+#elif defined (CONFIG_TOUCHSCREEN_800X480)
+#define SCREEN_MAX_X 800
+#define SCREEN_MAX_Y 480
+#else
 #define SCREEN_MAX_X              1280
 #define SCREEN_MAX_Y              800
+#endif
+
 #define PRESS_MAX                 255
 #define FT5X0X_NAME	              "ft5x0x_ts"//"synaptics_i2c_rmi"//"synaptics-rmi-ts"// 
 #define TOUCH_MAJOR_MAX           200
