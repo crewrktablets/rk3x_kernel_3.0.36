@@ -20,15 +20,15 @@ config TOUCHSCREEN_XPT2046_SPI
 	depends on TOUCHSCREEN_XPT2046_SPI
 
 		config TOUCHSCREEN_480X800
-		tristate "480X800 resolution"
+		bool "480X800 resolution"
 		depends on TOUCHSCREEN_XPT2046_NORMAL_SPI
 
 		config TOUCHSCREEN_800X480
-		tristate "800X480 resolution"
+		bool "800X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_NORMAL_SPI
 
 		config TOUCHSCREEN_320X480
-		tristate "320X480 resolution"
+		bool "320X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_NORMAL_SPI
 
 	config TOUCHSCREEN_XPT2046_TSLIB_SPI
@@ -36,15 +36,15 @@ config TOUCHSCREEN_XPT2046_SPI
 	depends on TOUCHSCREEN_XPT2046_SPI
 
 		config TOUCHSCREEN_480X800
-		tristate "480X800 resolution"
+		bool "480X800 resolution"
 		depends on TOUCHSCREEN_XPT2046_TSLIB_SPI
 
 		config TOUCHSCREEN_800X480
-		tristate "800X480 resolution"
+		bool "800X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_TSLIB_SPI
 
 		config TOUCHSCREEN_320X480
-		tristate "320X480 resolution"
+		bool "320X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_TSLIB_SPI
 
 	config TOUCHSCREEN_XPT2046_CBN_SPI
@@ -52,15 +52,15 @@ config TOUCHSCREEN_XPT2046_SPI
 	depends on TOUCHSCREEN_XPT2046_SPI
 
 		config TOUCHSCREEN_480X800
-		tristate "480X800 resolution"
+		bool "480X800 resolution"
 		depends on TOUCHSCREEN_XPT2046_CBN_SPI
 
 		config TOUCHSCREEN_800X480
-		tristate "800X480 resolution"
+		bool "800X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_CBN_SPI
 
 		config TOUCHSCREEN_320X480
-		tristate "320X480 resolution"
+		bool "320X480 resolution"
 		depends on TOUCHSCREEN_XPT2046_CBN_SPI
 
 config TOUCHSCREEN_88PM860X
