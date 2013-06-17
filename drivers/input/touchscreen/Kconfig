@@ -1116,19 +1116,19 @@ config TOUCHSCREEN_TOUCHPLUS
 		depends on TOUCHSCREEN_TOUCHPLUS
 
 		config TOUCHSCREEN_1024X768
-		tristate "1024X768 resolution"
+		bool "1024X768 resolution"
 		depends on TOUCHSCREEN_SIZE
 
 		config TOUCHSCREEN_1024X600
-		tristate "1024X600 resolution"
+		bool "1024X600 resolution"
 		depends on TOUCHSCREEN_SIZE
 	
 		config TOUCHSCREEN_800X600
-		tristate "800X600 resolution"
+		bool "800X600 resolution"
 		depends on TOUCHSCREEN_SIZE
 
 		config TOUCHSCREEN_800X480
-		tristate "800X480 resolution"
+		bool "800X480 resolution"
 		depends on TOUCHSCREEN_SIZE
 
 endif
