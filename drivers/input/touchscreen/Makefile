@@ -78,11 +78,7 @@ obj-$(CONFIG_TOUCHSCREEN_GT801_IIC)	+= gt801_ts.o
 obj-$(CONFIG_TOUCHSCREEN_GT82X_IIC)	+= goodix_touch_82x.o
 obj-$(CONFIG_TOUCHSCREEN_GT818_IIC)	+= gt818_ts.o
 obj-$(CONFIG_TOUCHSCREEN_GT8110)        += gt8110_ts.o
-<<<<<<< HEAD
 #obj-$(CONFIG_TOUCHSCREEN_CT360_IIC)	+= ct360_ts.o
-=======
-obj-$(CONFIG_TOUCHSCREEN_CT360_IIC)	+= ct360_ts.o
->>>>>>> 9701f67bd378bfd208a3a7188e7f14a980eedd5c
 #obj-$(CONFIG_TOUCHSCREEN_CT360_IIC)	+= vtl/
 obj-$(CONFIG_TOUCHSCREEN_ILI2102_IIC)	+= ili2102_ts.o
 obj-$(CONFIG_D70_L3188A)		+= goodix_touch.o
