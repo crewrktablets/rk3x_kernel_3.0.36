@@ -91,6 +91,22 @@ static ssize_t show_fb_state(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%s\n",state?"enabled":"disabled");
 	
 }
+
+static ssize_t show_dual_mode(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	int mode=0;
+#if defined(CONFIG_ONE_LCDC_DUAL_OUTPUT_INF)
+	mode = 1;
+#elif defined(CONFIG_DUAL_LCDC_DUAL_DISP_IN_KERNEL)
+	mode = 2;
+#else
+	mode = 0;
+#endif
+	return snprintf(buf, PAGE_SIZE, "%d\n",mode);
+	
+}
+
 static ssize_t set_fb_state(struct device *dev,struct device_attribute *attr,
 	const char *buf, size_t count)
 {
@@ -218,13 +234,32 @@ static ssize_t set_fb_win_map(struct device *dev,struct device_attribute *attr,
 	   (order != FB0_WIN2_FB1_WIN0_FB2_WIN1) && (order != FB0_WIN0_FB1_WIN2_FB2_WIN1 ) &&
 	   (order != FB0_WIN0_FB1_WIN1_FB2_WIN2) && (order != FB0_WIN1_FB1_WIN0_FB2_WIN2 ))
 	{
-		printk(KERN_ERR "un support map\nyou can use the following order: \
-			\n201:\nfb0-win1\nfb1-win0\nfb2-win2\n			   \
-			\n210:\nfb0-win0\nfb1-win1\nfb2-win2\n			  \
-			\n120:\nfb0-win0\nfb1-win2\nfb2-win1\n			  \
-			\n102:\nfb0-win2\nfb1-win0\nfb2-win1\n			   \
-			\n021:\nfb0-win1\nfb1-win2\nfb2-win0\n			   \
-			\n012:\nfb0-win2\nfb1-win1\nfb2-win0\n");
+		printk(KERN_ERR "un supported map\n"
+				"you can use the following order:\n"
+			        "201:\n"
+			        "fb0-win1\n"
+			        "fb1-win0\n"
+			        "fb2-win2\n"
+			        "210:\n"
+			        "fb0-win0\n"
+			        "fb1-win1\n"
+			        "fb2-win2\n"			  
+				"120:\n"
+				"fb0-win0\n"
+				"fb1-win2\n"
+				"fb2-win1\n"			  
+				"102:\n"
+				"fb0-win2\n"
+				"fb1-win0\n"
+				"fb2-win1\n"			   
+				"021:\n"
+				"fb0-win1\n"
+				"fb1-win2\n"
+				"fb2-win0\n"			   
+				"012:\n"
+				"fb0-win2\n"
+				"fb1-win1\n"
+				"fb2-win0\n");
 		return count;
 	}
 	else
@@ -240,13 +275,14 @@ static ssize_t set_fb_win_map(struct device *dev,struct device_attribute *attr,
 static ssize_t show_dsp_lut(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
-	
+
+	return 0;	
 }
 static ssize_t set_dsp_lut(struct device *dev,struct device_attribute *attr,
 	const char *buf, size_t count)
 {
 	int dsp_lut[256];
-	char *start = buf;
+	const char *start = buf;
 	int i=256,j,temp;
 	int space_max = 10;
 
@@ -295,6 +331,7 @@ static struct device_attribute rkfb_attrs[] = {
 	__ATTR(virt_addr, S_IRUGO, show_virt, NULL),
 	__ATTR(disp_info, S_IRUGO, show_disp_info, NULL),
 	__ATTR(screen_info, S_IRUGO, show_screen_info, NULL),
+	__ATTR(dual_mode, S_IRUGO, show_dual_mode, NULL),
 	__ATTR(enable, S_IRUGO | S_IWUSR, show_fb_state, set_fb_state),
 	__ATTR(overlay, S_IRUGO | S_IWUSR, show_overlay, set_overlay),
 	__ATTR(fps, S_IRUGO | S_IWUSR, show_fps, set_fps),

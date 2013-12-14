@@ -16,34 +16,34 @@ static void hdmi_sys_show_state(int state)
 	switch(state)
 	{
 		case HDMI_SLEEP:
-			dev_printk(KERN_INFO, hdmi->dev, "HDMI_SLEEP\n");
+			hdmi_dbg(hdmi->dev, "HDMI_SLEEP\n");
 			break;
 		case HDMI_INITIAL:
-			dev_printk(KERN_INFO, hdmi->dev, "HDMI_INITIAL\n");
+			hdmi_dbg(hdmi->dev, "HDMI_INITIAL\n");
 			break;
 		case WAIT_HOTPLUG:
-			dev_printk(KERN_INFO, hdmi->dev, "WAIT_HOTPLUG\n");
+			hdmi_dbg(hdmi->dev, "WAIT_HOTPLUG\n");
 			break;
 		case READ_PARSE_EDID:
-			dev_printk(KERN_INFO, hdmi->dev, "READ_PARSE_EDID\n");
+			hdmi_dbg(hdmi->dev, "READ_PARSE_EDID\n");
 			break;
 		case WAIT_HDMI_ENABLE:
-			dev_printk(KERN_INFO, hdmi->dev, "WAIT_HDMI_ENABLE\n");
+			hdmi_dbg(hdmi->dev, "WAIT_HDMI_ENABLE\n");
 			break;
 		case SYSTEM_CONFIG:
-			dev_printk(KERN_INFO, hdmi->dev, "SYSTEM_CONFIG\n");
+			hdmi_dbg(hdmi->dev, "SYSTEM_CONFIG\n");
 			break;
 		case CONFIG_VIDEO:
-			dev_printk(KERN_INFO, hdmi->dev, "CONFIG_VIDEO\n");
+			hdmi_dbg(hdmi->dev, "CONFIG_VIDEO\n");
 			break;
 		case CONFIG_AUDIO:
-			dev_printk(KERN_INFO, hdmi->dev, "CONFIG_AUDIO\n");
+			hdmi_dbg(hdmi->dev, "CONFIG_AUDIO\n");
 			break;
 		case PLAY_BACK:
-			dev_printk(KERN_INFO, hdmi->dev, "PLAY_BACK\n");
+			hdmi_dbg(hdmi->dev, "PLAY_BACK\n");
 			break;
 		default:
-			dev_printk(KERN_INFO, hdmi->dev, "Unkown State %d\n", state);
+			hdmi_dbg(hdmi->dev, "Unkown State %d\n", state);
 			break;
 	}
 }
@@ -80,6 +80,8 @@ void hdmi_sys_remove(void)
 	memset(&hdmi->edid, 0, sizeof(struct hdmi_edid));
 	INIT_LIST_HEAD(&hdmi->edid.modelist);
 	hdmi->display	= HDMI_DISABLE;
+	if(hdmi->set_vif)
+		hdmi->set_vif(hdmi->lcdc->screen1,0);
 	rk_fb_switch_screen(hdmi->lcdc->screen1, 0, hdmi->lcdc->id);
 	kobject_uevent_env(&hdmi->dev->kobj, KOBJ_REMOVE, envp);
 	#ifdef CONFIG_SWITCH
@@ -232,6 +234,7 @@ void hdmi_work(struct work_struct *work)
 				}
 				break;
 			case SYSTEM_CONFIG:
+				// hdmi->remove();
 				if(hdmi->autoconfig)	
 					hdmi->vic = hdmi_find_best_mode(hdmi, 0);
 				else

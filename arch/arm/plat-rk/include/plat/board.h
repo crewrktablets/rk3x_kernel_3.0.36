@@ -81,28 +81,6 @@ struct  pmu_info {
 	int          suspend_vol;
 };
 
-struct rk29_fb_setting_info {
-	u8 data_num;
-	u8 vsync_en;
-	u8 den_en;
-	u8 mcu_fmk_en;
-	u8 disp_on_en;
-	u8 standby_en;
-};
-
-struct rk29fb_info {
-	u32 fb_id;
-	enum rk_disp_prop prop;		//display device property,like PRMRY,EXTEND
-	u32 mcu_fmk_pin;
-	struct rk29lcd_info *lcd_info;
-	int (*io_init)(struct rk29_fb_setting_info *fb_setting);
-	int (*io_deinit)(void);
-	int (*io_enable)(void);
-	int (*io_disable)(void);
-	int (*lcd_enable)(void);		//open lcd output when hdmi resume
-	int (*lcd_disable)(void);		//hdmi timeout  close lcd output
-	void (*set_screen_info)(struct rk29fb_screen *screen, struct rk29lcd_info *lcd_info );
-};
 
 struct rksdmmc_iomux {
     char    *name;  //set the MACRO of gpio
@@ -158,6 +136,14 @@ struct rk29_sdmmc_platform_data {
 	int enable_sd_wakeup;
 	int write_prt;
 	unsigned int sdio_INT_gpio; //add gpio INT for sdio interrupt.Modifed by xbw at 2012-08-09
+};
+
+struct ct360_platform_data {	
+    u16		model;	
+    u16		x_max;	
+    u16		y_max;	
+    void 	(*hw_init)(void);	
+    void 	(*shutdown)(int);
 };
 
 struct gsensor_platform_data {
@@ -228,15 +214,6 @@ struct goodix_platform_data {
 	int (*platform_wakeup)(void);
 	void (*exit_platform_hw)(void);
 };
-
-struct ct360_platform_data {
-	u16		model;
-	u16		x_max;
-	u16		y_max;
-	void 	(*hw_init)(void);
-	void 	(*shutdown)(int);
-};
-
 
 struct cm3217_platform_data {
 	int irq_pin;

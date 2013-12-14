@@ -42,7 +42,7 @@ static int hdmi_set_enable(struct rk_display_device *device, int enable)
 	else {
 		if(hdmi->irq)
 			enable_irq(hdmi->irq);
-		#ifdef CONFIG_HDMI_RK610
+		#if defined(CONFIG_HDMI_RK610) || defined(CONFIG_HDMI_RK2928) || defined(CONFIG_HDMI_CAT66121) || defined(CONFIG_HDMI_RK616)
 			queue_delayed_work(hdmi->workqueue, &hdmi->delay_work, 0);
 		#endif
 		mutex_unlock(&hdmi->enable_mutex);
@@ -73,12 +73,12 @@ static int hdmi_set_mode(struct rk_display_device *device, struct fb_videomode *
 	struct hdmi *hdmi = device->priv_data;
 	int vic = hdmi_videomode_to_vic(mode);
 	
-	if(!hdmi->hotplug)
-		return -1;
 	hdmi->autoconfig = HDMI_DISABLE;
 	if(vic && hdmi->vic != vic)
 	{
 		hdmi->vic = vic;
+		if(!hdmi->hotplug)
+			return 0;
 		hdmi->command = HDMI_CONFIG_VIDEO;
 		init_completion(&hdmi->complete);
 		hdmi->wait = 1;
@@ -110,7 +110,10 @@ static int hdmi_set_scale(struct rk_display_device *device, int direction, int v
 	
 	if(!hdmi || value < 0 || value > 100)
 		return -1;
-			
+
+	if(!hdmi->hotplug)
+               return 0;
+		
 	if(direction == DISPLAY_SCALE_X)
 		hdmi->xscale = value;
 	else if(direction == DISPLAY_SCALE_Y)

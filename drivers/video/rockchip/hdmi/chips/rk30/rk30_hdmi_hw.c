@@ -625,7 +625,7 @@ irqreturn_t hdmi_irq(int irq, void *priv)
 		// HDMI was inserted when system is sleeping, irq was triggered only once
 		// when wake up. So we need to check hotplug status.
 		if(HDMIRdReg(HPD_MENS_STA) & (m_HOTPLUG_STATUS | m_MSEN_STATUS)) {			
-			queue_delayed_work(hdmi->workqueue, &hdmi->delay_work, msecs_to_jiffies(10));
+			queue_delayed_work(hdmi->workqueue, &hdmi->delay_work, msecs_to_jiffies(6000));
 		}
 	}
 	else

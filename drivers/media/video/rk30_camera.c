@@ -1317,11 +1317,11 @@ static int rk_sensor_iomux(int pin)
              rk30_mux_api_set(GPIO4C1_SMCDATA1_TRACEDATA1_NAME,0);
             break;	
         }
-        case RK30_PIN4_PC2:
-        {
-             rk30_mux_api_set(GPIO4C2_SMCDATA2_TRACEDATA2_NAME,0);
-            break;	
-        }
+//        case RK30_PIN4_PC2:
+//        {
+//             rk30_mux_api_set(GPIO4C2_SMCDATA2_TRACEDATA2_NAME,0);
+//            break;	
+//        }
         case RK30_PIN4_PC3:
         {
              rk30_mux_api_set(GPIO4C3_SMCDATA3_TRACEDATA3_NAME,0);
@@ -1349,11 +1349,11 @@ static int rk_sensor_iomux(int pin)
              rk30_mux_api_set(GPIO4C7_SMCDATA7_TRACEDATA7_NAME,0);
             break;	
         }
-        case RK30_PIN4_PD0:
-	    {
-		     rk30_mux_api_set(GPIO4D0_SMCDATA8_TRACEDATA8_NAME,0);			   
-		     break;	
-	    }
+//        case RK30_PIN4_PD0:
+//	    {
+//		     rk30_mux_api_set(GPIO4D0_SMCDATA8_TRACEDATA8_NAME,0);			   
+//		     break;	
+//	    }
         case RK30_PIN4_PD1:
         {
              rk30_mux_api_set(GPIO4D1_SMCDATA9_TRACEDATA9_NAME,0);             
