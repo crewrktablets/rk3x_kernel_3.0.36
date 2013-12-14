@@ -703,6 +703,7 @@ static struct byd_platform_data byd693x_info = {
 	.ypol = 0,
 };
 #endif
+<<<<<<< HEAD
 #if defined (CONFIG_TOUCHSCREEN_BF6931A)
 #define TOUCH_PWR_PIN   RK30_PIN2_PC2
 #define TOUCH_INT_PIN   RK30_PIN4_PC2
@@ -737,6 +738,16 @@ void bf6931a_exit_platform_hw(void)
 
 
 int bf6931a_platform_sleep(void)
+=======
+
+#if defined(CONFIG_TOUCHSCREEN_CT36X)
+#define TOUCH_MAX_X           1024 // 1280 // 1024
+#define TOUCH_MAX_y            600 //  800 //  768
+#define TOUCH_RESET_PIN       RK30_PIN4_PD0
+#define TOUCH_INT_PIN         RK30_PIN4_PC2
+
+static void ct3610_hw_init(void)
+>>>>>>> 9701f67bd378bfd208a3a7188e7f14a980eedd5c
 {
 	printk("bf6931a_platform_sleep\n");
 	//gpio_set_value(TOUCH_RESET_PIN,GPIO_LOW);
@@ -761,6 +772,7 @@ struct bf6931a_platform_data bf6931a_info = {
 };
 #endif
 
+<<<<<<< HEAD
 #if defined(CONFIG_TOUCHSCREEN_GT8XX)
 #define TOUCH_RESET_PIN  RK30_PIN1_PC0
 #define TOUCH_PWR_PIN    RK30_PIN2_PC2
@@ -809,6 +821,8 @@ struct goodix_platform_data goodix_info = {
 };
 #endif
 
+=======
+>>>>>>> 9701f67bd378bfd208a3a7188e7f14a980eedd5c
 static struct spi_board_info board_spi_devices[] = {
 };
 
