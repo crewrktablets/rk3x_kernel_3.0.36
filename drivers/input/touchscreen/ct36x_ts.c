@@ -29,7 +29,7 @@
 #include <linux/platform_device.h>
 
 
-#define CT360_DEBUG  1
+#define CT360_DEBUG  0
 
 #if CT360_DEBUG
     #define ct360printk(msg...) printk(msg);
@@ -121,8 +121,6 @@ char CTP_BootLoader(struct ct360_ts_data *ts)
     //--------------------------------------
     I2C_Buf [0] = 0x00;
     I2C_Buf [1] = 0xA5;
-
-return 1;
 
     ts->client->addr = 0x7F;
     ct360_write_regs(ts->client,0x00,&I2C_Buf[1], 1);                   // Host issue 0xA5 Command to CT365
@@ -430,7 +428,7 @@ static int ct360_ts_probe(struct i2c_client *client, const struct i2c_device_id 
         pdata->shutdown(1);
         mdelay(50);
     }
-
+*/
 
     gpio_request(GPIO_TS_RESET, "ct360_init_gpio");
     gpio_direction_output(GPIO_TS_RESET, GPIO_LOW);
@@ -489,9 +487,8 @@ static int ct360_ts_probe(struct i2c_client *client, const struct i2c_device_id 
     }
 
     ts->client->addr = 0x01;
-*/
-mdelay(50); 
-   /* allocate input device */
+
+    /* allocate input device */
     ts->input_dev = input_allocate_device();
     if (ts->input_dev == NULL) {
         ret = -ENOMEM;

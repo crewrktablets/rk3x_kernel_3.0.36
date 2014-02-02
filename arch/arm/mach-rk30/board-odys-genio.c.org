@@ -3029,7 +3029,7 @@ static struct i2c_board_info __initdata i2c2_info[] = {
 
 #if defined (CONFIG_TOUCHSCREEN_CT360_IIC)
 	{
-	.type		="ct36x_ts",
+	.type		="ct360_ts",
 	.addr		=0x01,
 	.flags		=0,
 	.irq		= RK30_PIN4_PC2,

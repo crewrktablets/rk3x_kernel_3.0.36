@@ -11,6 +11,15 @@ menuconfig INPUT_TOUCHSCREEN
 
 if INPUT_TOUCHSCREEN
 
+config TOUCHSCREEN_CT36X
+	tristate "CT36X based touchscreens"
+
+config TOUCHSCREEN_CT36X_IIC
+	tristate "VTL CT36X I2C touchscreen panel support"
+	depends on I2C
+
+#source "drivers/input/touchscreen/vtl/Kconfig"
+
 config TOUCHSCREEN_XPT2046_SPI
 	tristate "XPT2046 based touchscreens:SPI Interface"
 	depends on SPIM_RK29
@@ -115,9 +124,6 @@ config TOUCHSCREEN_ILI2102_IIC
 	  code includes that in its table of IIC devices.
 
 	  If unsure, say N (but it's safe to say "Y").
-
-config TOUCHSCREEN_CT36X
-	tristate "CT36X based touchscreens"
 
 config TOUCHSCREEN_GT8XX
         tristate "Goodix touch screen gt801X2 support for rockchip based platform"
@@ -1007,8 +1013,6 @@ config TOUCHSCREEN_GT819
 config TOUCHSCREEN_GT8110
         tristate "GT8110 based touchscreens"
         depends on I2C2_RK29 || I2C_RK30
-
-source "drivers/input/touchscreen/vtl/Kconfig"
 
 config TOUCHSCREEN_FT5306
 	tristate "FT5306 based touchscreens: FT5306 Interface"
